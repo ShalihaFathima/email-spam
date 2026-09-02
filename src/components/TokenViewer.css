@@ -1,0 +1,340 @@
+/* TokenViewer.css - Step 2: Tokenization Visualization */
+
+.token-viewer {
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header */
+.token-viewer-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.token-viewer-title {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #d4af37 0%, #f0e68c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.token-viewer-description {
+  margin: 0;
+  font-size: 13px;
+  color: #a0a0a0;
+  line-height: 1.5;
+}
+
+/* Statistics */
+.token-statistics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 16px;
+  border-radius: 6px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #d4af37 0%, #f0e68c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Processing Steps */
+.token-processing-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.processing-step {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.processing-step:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.processing-step:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.processing-step:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.step-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Token Pills */
+.token-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.token-pill {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  animation: fadeInScale 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.token-pill:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+.token-pill.removed {
+  background: linear-gradient(135deg, rgba(255, 68, 68, 0.1) 0%, rgba(255, 68, 68, 0.05) 100%);
+  border-color: rgba(255, 68, 68, 0.3);
+  color: #ff8888;
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.token-pill.removed:hover {
+  border-color: rgba(255, 68, 68, 0.6);
+  background: linear-gradient(135deg, rgba(255, 68, 68, 0.2) 0%, rgba(255, 68, 68, 0.1) 100%);
+  opacity: 0.9;
+}
+
+.token-pill.stemmed {
+  background: linear-gradient(135deg, rgba(68, 255, 68, 0.15) 0%, rgba(68, 255, 68, 0.05) 100%);
+  border-color: rgba(68, 255, 68, 0.3);
+  color: #88ff88;
+  font-style: italic;
+}
+
+.token-pill.stemmed:hover {
+  border-color: rgba(68, 255, 68, 0.6);
+  background: linear-gradient(135deg, rgba(68, 255, 68, 0.25) 0%, rgba(68, 255, 68, 0.1) 100%);
+}
+
+/* Stagger animation delays for tokens */
+.token-pill:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.token-pill:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.token-pill:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.token-pill:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.token-pill:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.token-pill:nth-child(n+6) {
+  animation-delay: 0.3s;
+}
+
+/* Empty State */
+.empty-tokens {
+  padding: 20px;
+  text-align: center;
+  color: #707070;
+  font-size: 12px;
+  border: 1px dashed rgba(212, 175, 55, 0.2);
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* Step Arrow */
+.step-arrow {
+  text-align: center;
+  color: #d4af37;
+  font-size: 20px;
+  margin: 12px 0;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Summary Section */
+.token-summary {
+  background: linear-gradient(135deg, rgba(68, 255, 68, 0.08) 0%, rgba(68, 255, 68, 0.03) 100%);
+  border: 1px solid rgba(68, 255, 68, 0.2);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 16px;
+  font-size: 11px;
+  color: #a0a0a0;
+}
+
+.summary-text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.summary-highlight {
+  color: #88ff88;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .token-statistics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .stat-box {
+    padding: 12px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .processing-step {
+    padding: 12px;
+  }
+
+  .step-title {
+    font-size: 12px;
+  }
+
+  .token-pill {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .token-statistics {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-box {
+    padding: 10px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .token-viewer-title {
+    font-size: 16px;
+  }
+
+  .token-viewer-description {
+    font-size: 12px;
+  }
+
+  .step-title {
+    font-size: 11px;
+  }
+
+  .token-pill {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+}

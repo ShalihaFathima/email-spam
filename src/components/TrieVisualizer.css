@@ -1,0 +1,438 @@
+/* TrieVisualizer.css - Step 5: Trie Traversal Visualization */
+
+.trie-visualizer {
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header */
+.trie-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.trie-title {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #d4af37 0%, #f0e68c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.trie-description {
+  margin: 0;
+  font-size: 13px;
+  color: #a0a0a0;
+  line-height: 1.5;
+}
+
+/* Token Selector */
+.trie-token-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.selector-label {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.trie-token-btn {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: #a0a0a0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.trie-token-btn:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #d4af37;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.08) 100%);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+.trie-token-btn.selected {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%);
+  border-color: rgba(212, 175, 55, 0.8);
+  color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.trie-token-btn.spam {
+  border-color: rgba(255, 68, 68, 0.3);
+  color: #ff8888;
+}
+
+.trie-token-btn.spam.selected {
+  background: linear-gradient(135deg, rgba(255, 68, 68, 0.25) 0%, rgba(255, 68, 68, 0.15) 100%);
+  border-color: rgba(255, 68, 68, 0.8);
+  color: #ff6666;
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+}
+
+/* Path Display */
+.trie-path-display {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.path-label {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.path-visualization {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-height: 40px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+.path-node {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #d4af37;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  animation: slideIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.path-node:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.path-node:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.path-node:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.path-node:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.path-node:nth-child(n+5) {
+  animation-delay: 0.5s;
+}
+
+.path-arrow {
+  color: #d4af37;
+  font-size: 16px;
+  animation: arrowFloat 0.6s ease-in-out infinite;
+}
+
+@keyframes arrowFloat {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+/* Current Status */
+.current-status {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-icon {
+  font-size: 32px;
+  min-width: 40px;
+}
+
+.status-text {
+  flex: 1;
+}
+
+.status-token {
+  font-size: 12px;
+  color: #d4af37;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.status-message {
+  font-size: 11px;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.status-type {
+  font-size: 10px;
+  color: #707070;
+  margin-top: 4px;
+}
+
+/* Trie Tree Structure */
+.trie-tree-container {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.trie-tree-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.trie-tree-container::-webkit-scrollbar-track {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.trie-tree-container::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 3px;
+}
+
+.tree-label {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.trie-tree {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.tree-line {
+  color: #707070;
+  white-space: pre;
+  margin-bottom: 4px;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.tree-line:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.tree-line:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.tree-line:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.tree-line:nth-child(n+4) {
+  animation-delay: 0.25s;
+}
+
+.tree-node {
+  color: #d4af37;
+}
+
+.tree-node.current {
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.tree-node.spam {
+  color: #ff8888;
+}
+
+.tree-node.spam.current {
+  background: rgba(255, 68, 68, 0.2);
+}
+
+/* Statistics */
+.trie-statistics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.trie-stat-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.trie-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d4af37;
+  margin-bottom: 4px;
+}
+
+.trie-stat-label {
+  font-size: 10px;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Explanation Box */
+.trie-explanation {
+  background: rgba(68, 255, 68, 0.08);
+  border: 1px solid rgba(68, 255, 68, 0.2);
+  border-left: 4px solid rgba(68, 255, 68, 0.6);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 11px;
+  color: #a0a0a0;
+  line-height: 1.6;
+}
+
+.trie-explanation p {
+  margin: 0;
+}
+
+.trie-explanation strong {
+  color: #88ff88;
+}
+
+/* Depth Indicator */
+.depth-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trie-token-selector {
+    gap: 6px;
+  }
+
+  .trie-token-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .trie-statistics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .trie-stat-card {
+    padding: 10px;
+  }
+
+  .trie-stat-value {
+    font-size: 16px;
+  }
+
+  .path-visualization {
+    gap: 8px;
+  }
+
+  .path-node {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trie-token-selector {
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .trie-token-btn {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  .trie-statistics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .trie-stat-card {
+    padding: 8px;
+  }
+
+  .trie-stat-value {
+    font-size: 14px;
+  }
+
+  .trie-stat-label {
+    font-size: 9px;
+  }
+
+  .path-node {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .current-status {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trie-tree {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+}

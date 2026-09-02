@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 9 - ML Analysis Visual Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+      color: #fff;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #D4AF37, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      color: #aaa;
+    }
+
+    /* ============================================================ */
+    /* EMAIL INPUT SECTION */
+    /* ============================================================ */
+    .input-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #D4AF37;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+    }
+
+    .input-section h2 {
+      color: #D4AF37;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+
+    .preset-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .preset-btn {
+      padding: 10px 15px;
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid #D4AF37;
+      color: #D4AF37;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.3s;
+    }
+
+    .preset-btn:hover {
+      background: rgba(212, 175, 55, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .email-input {
+      width: 100%;
+      height: 100px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #fff;
+      font-family: monospace;
+      font-size: 0.95em;
+      resize: vertical;
+      margin-bottom: 15px;
+    }
+
+    .email-input::placeholder {
+      color: #666;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #D4AF37, #ffd700);
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .analyze-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .analyze-btn:active {
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================ */
+    /* 9-STEP PIPELINE VISUALIZATION */
+    /* ============================================================ */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .step {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 2px solid #666;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      position: relative;
+      transition: all 0.5s ease;
+      cursor: default;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .step-number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #888;
+      transition: all 0.3s;
+    }
+
+    .step-name {
+      font-size: 0.75em;
+      color: #888;
+      margin-top: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+
+    /* Status: Pending */
+    .step.pending {
+      border-color: #666;
+      background: rgba(100, 100, 100, 0.1);
+    }
+
+    .step.pending .step-number {
+      color: #888;
+    }
+
+    .step.pending .step-name {
+      color: #888;
+    }
+
+    /* Status: Running */
+    .step.running {
+      border-color: #ffa500;
+      background: rgba(255, 165, 0, 0.15);
+      animation: pulse 1s infinite;
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+    }
+
+    .step.running .step-number {
+      color: #ffa500;
+      font-size: 2.3em;
+    }
+
+    .step.running .step-name {
+      color: #ffa500;
+    }
+
+    /* Status: Completed */
+    .step.completed {
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.15);
+      box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+    }
+
+    .step.completed .step-number::before {
+      content: "✓";
+      color: #4caf50;
+      font-size: 1.2em;
+    }
+
+    .step.completed .step-number {
+      color: #4caf50;
+    }
+
+    .step.completed .step-name {
+      color: #4caf50;
+    }
+
+    /* Status: Skipped */
+    .step.skipped {
+      border-color: #999;
+      background: rgba(150, 150, 150, 0.1);
+      opacity: 0.6;
+    }
+
+    .step.skipped .step-number::before {
+      content: "⊘";
+      color: #999;
+    }
+
+    .step.skipped .step-name {
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    /* Status: Error */
+    .step.error {
+      border-color: #f44336;
+      background: rgba(244, 67, 54, 0.15);
+      box-shadow: 0 0 15px rgba(244, 67, 54, 0.2);
+    }
+
+    .step.error .step-number::before {
+      content: "✕";
+      color: #f44336;
+    }
+
+    .step.error .step-name {
+      color: #f44336;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* ============================================================ */
+    /* DECISION TREE VISUALIZATION */
+    /* ============================================================ */
+    .decision-tree {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #D4AF37;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+      display: none;
+    }
+
+    .decision-tree.show {
+      display: block;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .decision-tree h3 {
+      color: #D4AF37;
+      margin-bottom: 15px;
+    }
+
+    .score-bar {
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(90deg, #4caf50 0%, #ffc107 35%, #ffc107 65%, #f44336 100%);
+      border-radius: 5px;
+      position: relative;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .score-indicator {
+      position: absolute;
+      width: 3px;
+      height: 100%;
+      background: #fff;
+      top: 0;
+      left: 0;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    .score-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+      margin-top: 10px;
+      color: #aaa;
+    }
+
+    .score-label {
+      text-align: center;
+    }
+
+    .score-label strong {
+      color: #4caf50;
+    }
+
+    .score-label.uncertain strong {
+      color: #ffc107;
+    }
+
+    .score-label.spam strong {
+      color: #f44336;
+    }
+
+    .decision-description {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid #D4AF37;
+      border-radius: 5px;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    /* ============================================================ */
+    /* RESULTS SECTION */
+    /* ============================================================ */
+    .results-section {
+      display: none;
+    }
+
+    .results-section.show {
+      display: block;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .results-section h2 {
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .result-card:hover {
+      border-color: #D4AF37;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+    }
+
+    .result-card h4 {
+      color: #D4AF37;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .result-card .value {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .result-card .label {
+      font-size: 0.85em;
+      color: #aaa;
+    }
+
+    .result-card.spam .value {
+      color: #f44336;
+    }
+
+    .result-card.ham .value {
+      color: #4caf50;
+    }
+
+    .result-card.ml .value {
+      color: #ffa500;
+    }
+
+    /* ============================================================ */
+    /* DETAILED LOG */
+    /* ============================================================ */
+    .detailed-log {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .detailed-log.show {
+      display: block;
+    }
+
+    .log-line {
+      margin-bottom: 8px;
+      padding: 5px;
+      border-radius: 3px;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .log-line.info {
+      color: #aaa;
+    }
+
+    .log-line.running {
+      color: #ffa500;
+      background: rgba(255, 165, 0, 0.1);
+    }
+
+    .log-line.completed {
+      color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    .log-line.skipped {
+      color: #999;
+      background: rgba(150, 150, 150, 0.1);
+    }
+
+    .log-line.error {
+      color: #f44336;
+      background: rgba(244, 67, 54, 0.1);
+    }
+
+    .log-line::before {
+      content: "▶ ";
+      margin-right: 8px;
+      opacity: 0.6;
+    }
+
+    .log-line.completed::before {
+      content: "✓ ";
+      color: #4caf50;
+    }
+
+    .log-line.skipped::before {
+      content: "⊘ ";
+      color: #999;
+    }
+
+    .log-line.error::before {
+      content: "✕ ";
+      color: #f44336;
+    }
+
+    /* ============================================================ */
+    /* FINAL DECISION BANNER */
+    /* ============================================================ */
+    .final-decision {
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      display: none;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .final-decision.show {
+      display: block;
+    }
+
+    .final-decision.spam {
+      background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.05));
+      border: 2px solid #f44336;
+      color: #ff6b6b;
+    }
+
+    .final-decision.ham {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.05));
+      border: 2px solid #4caf50;
+      color: #66bb6a;
+    }
+
+    .final-decision .icon {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    /* ============================================================ */
+    /* SCROLLBAR */
+    /* ============================================================ */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #D4AF37;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>⚡ STEP 9: ML ANALYSIS - VISUAL DEMO</h1>
+      <p>Watch the 9-step spam detection pipeline in real-time</p>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <h2>📧 Test Email</h2>
+      
+      <div class="preset-buttons">
+        <button class="preset-btn" onclick="loadPreset('high-spam')">High SPAM</button>
+        <button class="preset-btn" onclick="loadPreset('uncertain')">UNCERTAIN</button>
+        <button class="preset-btn" onclick="loadPreset('high-ham')">High HAM</button>
+        <button class="preset-btn" onclick="loadPreset('phishing')">PHISHING</button>
+        <button class="preset-btn" onclick="loadPreset('legitimate')">LEGITIMATE</button>
+      </div>
+
+      <textarea class="email-input" id="emailInput" placeholder="Paste email content here or click a preset button..."></textarea>
+      <button class="analyze-btn" onclick="startAnalysis()">▶ ANALYZE WITH 9 STEPS</button>
+    </div>
+
+    <!-- 9-Step Pipeline -->
+    <div class="pipeline" id="pipeline">
+      <div class="step pending" id="step-1">
+        <div class="step-number">1</div>
+        <div class="step-name">Tokenization</div>
+      </div>
+      <div class="step pending" id="step-2">
+        <div class="step-number">2</div>
+        <div class="step-name">Bloom Filter</div>
+      </div>
+      <div class="step pending" id="step-3">
+        <div class="step-number">3</div>
+        <div class="step-name">Hash Table</div>
+      </div>
+      <div class="step pending" id="step-4">
+        <div class="step-number">4</div>
+        <div class="step-name">Trie</div>
+      </div>
+      <div class="step pending" id="step-5">
+        <div class="step-number">5</div>
+        <div class="step-name">Scoring</div>
+      </div>
+      <div class="step pending" id="step-6">
+        <div class="step-number">6</div>
+        <div class="step-name">Graph Analysis</div>
+      </div>
+      <div class="step pending" id="step-7">
+        <div class="step-number">7</div>
+        <div class="step-name">Pattern</div>
+      </div>
+      <div class="step pending" id="step-8">
+        <div class="step-number">8</div>
+        <div class="step-name">Final Check</div>
+      </div>
+      <div class="step pending" id="step-9">
+        <div class="step-number">9</div>
+        <div class="step-name">ML Analysis</div>
+      </div>
+    </div>
+
+    <!-- Decision Tree -->
+    <div class="decision-tree" id="decisionTree">
+      <h3>📊 Decision Tree (After Steps 1-8)</h3>
+      <div class="score-bar">
+        <div class="score-indicator" id="scoreIndicator"></div>
+      </div>
+      <div class="score-labels">
+        <div class="score-label">
+          <strong>0-3</strong><br>HAM<br>(Skip ML)
+        </div>
+        <div class="score-label uncertain">
+          <strong>3-8</strong><br>UNCERTAIN<br>(Run ML)
+        </div>
+        <div class="score-label spam">
+          <strong>8-10</strong><br>SPAM<br>(Skip ML)
+        </div>
+      </div>
+      <div class="decision-description" id="decisionDescription"></div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section" id="resultsSection">
+      <h2>📋 Results</h2>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <h4>Score (1-8)</h4>
+          <div class="value" id="scoreValue">-</div>
+          <div class="label">From detection layers</div>
+        </div>
+
+        <div class="result-card ml" id="mlCard" style="display: none;">
+          <h4>Step 9 Status</h4>
+          <div class="value" id="mlStatus">-</div>
+          <div class="label">ML Analysis</div>
+        </div>
+
+        <div class="result-card" id="mlResultCard" style="display: none;">
+          <h4>ML Prediction</h4>
+          <div class="value" id="mlPrediction">-</div>
+          <div class="label">Confidence: <span id="mlConfidence">-</span></div>
+        </div>
+
+        <div class="result-card" id="decisionCard" style="display: none;">
+          <h4>Final Decision</h4>
+          <div class="value" id="decisionValue">-</div>
+          <div class="label">Based on all 9 steps</div>
+        </div>
+      </div>
+
+      <!-- Detailed Log -->
+      <div class="detailed-log" id="detailedLog">
+        <div id="logContent"></div>
+      </div>
+
+      <!-- Final Decision Banner -->
+      <div class="final-decision" id="finalDecision"></div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // PRESET EMAILS
+    // ============================================================
+    const PRESETS = {
+      'high-spam': "FREE MONEY NOW!!! You have won $5,000,000!!! CLICK HERE IMMEDIATELY to claim your prize!!! Limited time offer!!! DO NOT MISS OUT!!! ACT NOW!!!",
+      'uncertain': "We have a special offer available today. You might be interested in our new products. Click the link to see more details. Limited time promotion.",
+      'high-ham': "Hi there, I hope this email finds you well. I wanted to check in and see how you've been doing. Let me know if you'd like to catch up for coffee soon.",
+      'phishing': "Your account has been flagged. Please verify your information immediately by clicking the link below. This is urgent and requires your immediate attention.",
+      'legitimate': "Hi Team, I wanted to share the Q1 results with you. Our sales increased by 15% compared to last quarter. Please review and provide your feedback by end of week."
+    };
+
+    function loadPreset(name) {
+      document.getElementById('emailInput').value = PRESETS[name];
+    }
+
+    // ============================================================
+    // STEP SIMULATOR
+    // ============================================================
+    async function updateStepUI(stepNum, status, info = '') {
+      const stepEl = document.getElementById(`step-${stepNum}`);
+      if (!stepEl) return;
+
+      stepEl.classList.remove('pending', 'running', 'completed', 'skipped', 'error');
+      stepEl.classList.add(status);
+
+      addLog(status, `Step ${stepNum}: ${info}`);
+      await new Promise(resolve => setTimeout(resolve, 300));
+    }
+
+    async function startAnalysis() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) {
+        alert('Please enter an email or click a preset');
+        return;
+      }
+
+      // Reset UI
+      document.querySelectorAll('.step').forEach(el => {
+        el.classList.remove('running', 'completed', 'skipped', 'error');
+        el.classList.add('pending');
+      });
+      document.getElementById('logContent').innerHTML = '';
+      document.getElementById('resultsSection').classList.remove('show');
+      document.getElementById('decisionTree').classList.remove('show');
+
+      // Simulate Steps 1-8
+      addLog('info', '▶ Starting 9-step analysis...');
+      
+      for (let i = 1; i <= 8; i++) {
+        await updateStepUI(i, 'running', 'Analyzing...');
+        await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 400));
+        await updateStepUI(i, 'completed', 'Complete');
+      }
+
+      // Calculate score
+      const score = Math.random() * 10;
+      addLog('info', `\nScore from Steps 1-8: ${score.toFixed(1)}/10`);
+      
+      // Decision Tree
+      document.getElementById('decisionTree').classList.add('show');
+      const scorePercent = (score / 10) * 100;
+      document.getElementById('scoreIndicator').style.left = scorePercent + '%';
+
+      // Decision logic
+      let shouldRunML = false;
+      let decisionMsg = '';
+
+      if (score >= 8) {
+        shouldRunML = false;
+        decisionMsg = `✓ HIGH SPAM confidence (${score.toFixed(1)}/10) - Step 9 will be SKIPPED`;
+        addLog('info', decisionMsg);
+      } else if (score <= 3) {
+        shouldRunML = false;
+        decisionMsg = `✓ HIGH HAM confidence (${score.toFixed(1)}/10) - Step 9 will be SKIPPED`;
+        addLog('info', decisionMsg);
+      } else {
+        shouldRunML = true;
+        decisionMsg = `? UNCERTAIN score (${score.toFixed(1)}/10) - Step 9 WILL RUN (call ML API)`;
+        addLog('info', decisionMsg);
+      }
+
+      document.getElementById('decisionDescription').innerHTML = decisionMsg;
+      document.getElementById('scoreValue').textContent = score.toFixed(1);
+
+      // Step 9: ML Analysis
+      addLog('info', '\n▶ STEP 9: ML Analysis');
+
+      if (shouldRunML) {
+        await updateStepUI(9, 'running', 'Calling ML API...');
+        addLog('running', 'Connecting to Flask ML server...');
+        
+        await new Promise(resolve => setTimeout(resolve, 1200));
+
+        const mlPrediction = score > 5 ? 'Spam' : 'Not Spam';
+        const mlConfidence = 0.85 + Math.random() * 0.14;
+
+        await updateStepUI(9, 'completed', `ML Result: ${mlPrediction}`);
+        addLog('completed', `ML Prediction: ${mlPrediction} (${(mlConfidence * 100).toFixed(1)}% confidence)`);
+
+        // Show ML result card
+        document.getElementById('mlCard').style.display = 'block';
+        document.getElementById('mlStatus').textContent = 'COMPLETED';
+        document.getElementById('mlResultCard').style.display = 'block';
+        document.getElementById('mlPrediction').textContent = mlPrediction;
+        document.getElementById('mlConfidence').textContent = (mlConfidence * 100).toFixed(1) + '%';
+
+        // Final decision from ML
+        var finalDecision = mlPrediction;
+      } else {
+        await updateStepUI(9, 'skipped', 'High confidence - ML not needed');
+        addLog('skipped', 'Step 9 SKIPPED - High confidence from detection layers');
+
+        // Show skipped card
+        document.getElementById('mlCard').style.display = 'block';
+        document.getElementById('mlStatus').textContent = 'SKIPPED';
+
+        // Final decision from score
+        var finalDecision = score >= 6.5 ? 'Spam' : 'Not Spam';
+      }
+
+      // Show final decision
+      document.getElementById('decisionCard').style.display = 'block';
+      document.getElementById('decisionValue').textContent = finalDecision;
+
+      const finalBanner = document.getElementById('finalDecision');
+      finalBanner.textContent = `🎯 FINAL DECISION: ${finalDecision}`;
+      finalBanner.className = `final-decision show ${finalDecision === 'Spam' ? 'spam' : 'ham'}`;
+
+      if (finalDecision === 'Spam') {
+        finalBanner.innerHTML = `<div class="icon">⚠️</div>🎯 FINAL DECISION: SPAM`;
+      } else {
+        finalBanner.innerHTML = `<div class="icon">✅</div>🎯 FINAL DECISION: NOT SPAM`;
+      }
+
+      addLog('completed', `\n✓ ANALYSIS COMPLETE: ${finalDecision}`);
+
+      // Show results
+      document.getElementById('resultsSection').classList.add('show');
+      document.getElementById('detailedLog').classList.add('show');
+
+      // Auto-scroll to results
+      setTimeout(() => {
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+
+    // ============================================================
+    // LOGGING
+    // ============================================================
+    function addLog(type, message) {
+      const logContent = document.getElementById('logContent');
+      const line = document.createElement('div');
+      line.className = `log-line ${type}`;
+      line.textContent = message;
+      logContent.appendChild(line);
+      logContent.scrollTop = logContent.scrollHeight;
+    }
+
+    // ============================================================
+    // INITIAL LOGS
+    // ============================================================
+    addLog('info', '📊 Step 9 ML Analysis Demo ready');
+    addLog('info', '1. Paste an email or click a preset button');
+    addLog('info', '2. Click "ANALYZE WITH 9 STEPS"');
+    addLog('info', '3. Watch Steps 1-9 execute in real-time');
+  </script>
+</body>
+</html>

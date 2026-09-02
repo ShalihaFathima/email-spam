@@ -1,0 +1,181 @@
+/* ========== NEXT ACTION BANNER STYLES ========== */
+
+.nab-container {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin: -40px -20px 30px -20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ========== URGENCY LEVELS ========== */
+
+.nab-container.urgency-critical {
+  background: linear-gradient(135deg, rgba(255, 59, 48, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-bottom-color: rgba(255, 59, 48, 0.5);
+}
+
+.nab-container.urgency-urgent {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-bottom-color: rgba(255, 107, 107, 0.4);
+}
+
+.nab-container.urgency-soon {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.08) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-bottom-color: rgba(255, 193, 7, 0.4);
+}
+
+.nab-container.urgency-normal {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.03) 100%);
+  border-bottom-color: rgba(212, 175, 55, 0.3);
+}
+
+/* ========== CONTENT ========== */
+
+.nab-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.nab-icon {
+  font-size: 32px;
+  animation: pulse-icon 2s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ========== TEXT ========== */
+
+.nab-text {
+  flex: 1;
+}
+
+.nab-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #d4af37;
+  margin-bottom: 4px;
+}
+
+.nab-task {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.nab-task strong {
+  color: #d4af37;
+  font-weight: 700;
+}
+
+/* ========== DEADLINE ========== */
+
+.nab-deadline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.nab-due {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d4af37;
+}
+
+.nab-container.urgency-critical .nab-due {
+  color: #ff3b30;
+  animation: flash 1s ease-in-out infinite;
+}
+
+.nab-container.urgency-urgent .nab-due {
+  color: #ff6b6b;
+}
+
+.nab-container.urgency-soon .nab-due {
+  color: #ffc107;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.nab-date {
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* ========== PULSE EFFECT ========== */
+
+.nab-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+  .nab-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: -30px -15px 20px -15px;
+    padding: 15px;
+  }
+
+  .nab-content {
+    width: 100%;
+  }
+
+  .nab-deadline {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .nab-task {
+    font-size: 14px;
+  }
+
+  .nab-label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nab-icon {
+    font-size: 24px;
+  }
+
+  .nab-task {
+    font-size: 13px;
+  }
+
+  .nab-due {
+    font-size: 12px;
+  }
+}

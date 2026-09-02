@@ -1,0 +1,182 @@
+/* ========== RELATED TASKS STYLES ========== */
+
+.rt-trigger {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #d4af37;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.rt-trigger:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+.rt-container {
+  margin-top: 12px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ========== HEADER ========== */
+
+.rt-header {
+  padding: 10px 12px;
+  background: rgba(212, 175, 55, 0.08);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rt-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #d4af37;
+}
+
+.rt-close {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 6px;
+  transition: all 0.2s ease;
+}
+
+.rt-close:hover {
+  color: #d4af37;
+  transform: rotate(90deg);
+}
+
+/* ========== CONTENT ========== */
+
+.rt-content {
+  padding: 12px;
+}
+
+.rt-loading {
+  padding: 10px;
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+}
+
+.rt-error {
+  padding: 10px;
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  border-radius: 4px;
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* ========== SECTION ========== */
+
+.rt-section {
+  margin-bottom: 12px;
+}
+
+.rt-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.rt-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========== TASKS ========== */
+
+.rt-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rt-task {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.rt-task:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.25);
+  transform: translateX(2px);
+}
+
+.rt-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rt-badge.blocking {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+}
+
+.rt-badge.blocked {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.rt-task-text {
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.rt-task-text strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.rt-task-date {
+  font-size: 10px;
+  color: #888;
+}
+
+/* ========== EMPTY STATE ========== */
+
+.rt-empty {
+  padding: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* ========== INFO ========== */
+
+.rt-info {
+  padding-top: 8px;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  font-size: 11px;
+  color: #888;
+  text-align: right;
+}

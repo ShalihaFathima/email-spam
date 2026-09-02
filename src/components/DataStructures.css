@@ -1,0 +1,262 @@
+.data-structures-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+  color: #E0E0E0;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.data-structures-container h2 {
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #333;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 12px 24px;
+  background: transparent;
+  color: #999;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  position: relative;
+  bottom: -2px;
+}
+
+.tab:hover {
+  color: #D4AF37;
+}
+
+.tab.active {
+  color: #D4AF37;
+  border-bottom-color: #D4AF37;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bloom-section,
+.trie-section,
+.hash-section {
+  margin-top: 20px;
+}
+
+.bloom-section h3,
+.trie-section h3,
+.hash-section h3 {
+  color: #D4AF37;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.description {
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.bloom-stats,
+.hash-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+}
+
+.stat-label {
+  color: #999;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  color: #D4AF37;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.chart-wrapper {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+/* Trie Visualization */
+.trie-visualization {
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.trie-tree {
+  display: flex;
+  justify-content: center;
+}
+
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px 15px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #E0E0E0;
+  font-weight: 600;
+  position: relative;
+  min-width: 60px;
+  text-align: center;
+}
+
+.tree-node.root {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #D4AF37;
+  color: #D4AF37;
+  font-size: 14px;
+}
+
+.tree-node.leaf {
+  background: rgba(100, 200, 100, 0.1);
+  border-color: rgba(100, 200, 100, 0.5);
+  color: #64C864;
+  font-size: 12px;
+}
+
+.children {
+  display: flex;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.tree-node > .children {
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Info Box */
+.info-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.02) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+}
+
+.info-box h4 {
+  color: #D4AF37;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-box li {
+  color: #E0E0E0;
+  margin: 10px 0;
+  padding-left: 25px;
+  position: relative;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.info-box li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #D4AF37;
+  font-weight: bold;
+}
+
+.info-box strong {
+  color: #D4AF37;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .data-structures-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .data-structures-container h2 {
+    font-size: 20px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tab {
+    width: 100%;
+    text-align: left;
+  }
+
+  .bloom-stats,
+  .hash-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .trie-tree {
+    flex-direction: column;
+  }
+
+  .children {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

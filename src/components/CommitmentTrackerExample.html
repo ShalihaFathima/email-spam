@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commitment Tracker - Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-header h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .demo-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-scenario-1 {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-scenario-2 {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-scenario-3 {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-clear {
+            background: #ef4444;
+            color: white;
+        }
+
+        .tracker-header {
+            background: white;
+            border-radius: 12px 12px 0 0;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tracker-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .tracker-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tracker-content {
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 12px 12px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pending .section-icon {
+            background: #fef3c7;
+        }
+
+        .reminders .section-icon {
+            background: #fee2e2;
+        }
+
+        .completed .section-icon {
+            background: #d1fae5;
+        }
+
+        .task-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: all 0.2s;
+        }
+
+        .task-item:hover {
+            transform: translateX(4px);
+        }
+
+        .pending .task-item {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+
+        .reminders .task-item {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        .completed .task-item {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+
+        .task-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .task-details {
+            flex-grow: 1;
+        }
+
+        .task-action {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 4px;
+            text-transform: capitalize;
+        }
+
+        .task-object {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .task-deadline {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .deadline-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #999;
+        }
+
+        .pending .deadline-indicator {
+            background: #f59e0b;
+        }
+
+        .completed .deadline-indicator {
+            background: #10b981;
+        }
+
+        .reminders .deadline-indicator {
+            background: #ef4444;
+        }
+
+        .task-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .status-completed {
+            background: #6ee7b7;
+            color: #065f46;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .empty-message {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .empty-submessage {
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .reminder-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .reminder-item:hover {
+            transform: translateX(4px);
+        }
+
+        .reminder-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 600px) {
+            .tracker-header {
+                padding: 20px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .tracker-header h1 {
+                font-size: 24px;
+            }
+
+            .task-content {
+                flex-direction: column;
+            }
+
+            .stats-bar {
+                gap: 10px;
+            }
+
+            .demo-buttons {
+                flex-direction: column;
+            }
+
+            .demo-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Demo Header -->
+        <div class="demo-header">
+            <h2>🧪 Commitment Tracker - Interactive Demo</h2>
+            <p>Click buttons below to see different data scenarios</p>
+            <div class="demo-buttons">
+                <button class="demo-btn btn-scenario-1" onclick="loadScenario1()">Scenario 1: Fresh Tasks</button>
+                <button class="demo-btn btn-scenario-2" onclick="loadScenario2()">Scenario 2: With Updates</button>
+                <button class="demo-btn btn-scenario-3" onclick="loadScenario3()">Scenario 3: Mixed Tasks</button>
+                <button class="demo-btn btn-clear" onclick="clearUI()">Clear</button>
+            </div>
+            <div class="code-block" id="code-display"></div>
+        </div>
+
+        <!-- Commitment Tracker Section -->
+        <div class="tracker-header">
+            <h1>📋 Commitment Tracker</h1>
+            <p>Track your commitments and stay on top of your tasks</p>
+        </div>
+
+        <div class="tracker-content">
+            <!-- Pending Tasks Section -->
+            <div class="section pending">
+                <div class="section-title">
+                    <div class="section-icon">⏳</div>
+                    Pending Tasks
+                </div>
+                <div id="pending-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Reminders Section -->
+            <div class="section reminders">
+                <div class="section-title">
+                    <div class="section-icon">🔔</div>
+                    Reminders
+                </div>
+                <div id="reminders-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Completed Tasks Section -->
+            <div class="section completed">
+                <div class="section-title">
+                    <div class="section-icon">✅</div>
+                    Completed Tasks
+                </div>
+                <div id="completed-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Statistics Bar -->
+            <div class="section stats-bar">
+                <div class="stat">
+                    <div class="stat-number" id="stat-pending">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat-reminders">0</div>
+                    <div class="stat-label">Reminders</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat-completed">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="commitmentTrackerUI.js"></script>
+    <script>
+        // Scenario 1: Fresh tasks with today and tomorrow deadlines
+        function loadScenario1() {
+            const today = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            const data = {
+                pending: [
+                    {
+                        action: 'send',
+                        object: 'project report',
+                        deadline: today,
+                        status: 'pending',
+                    },
+                    {
+                        action: 'call',
+                        object: 'client',
+                        deadline: tomorrow,
+                        status: 'pending',
+                    },
+                ],
+                completed: [],
+                reminders: ['Reminder: send project report today'],
+            };
+
+            updateCommitmentUI(data);
+            showCode('Scenario 1: Fresh Tasks', data);
+        }
+
+        // Scenario 2: Tasks with completions
+        function loadScenario2() {
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const twoDaysAgo = new Date();
+            twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+            const data = {
+                pending: [
+                    {
+                        action: 'review',
+                        object: 'proposal',
+                        deadline: today,
+                        status: 'pending',
+                    },
+                ],
+                completed: [
+                    {
+                        action: 'send',
+                        object: 'email',
+                        deadline: yesterday,
+                        status: 'completed',
+                    },
+                    {
+                        action: 'attend',
+                        object: 'meeting',
+                        deadline: twoDaysAgo,
+                        status: 'completed',
+                    },
+                ],
+                reminders: [
+                    'Reminder: review proposal today',
+                    'You missed: follow up on email',
+                ],
+            };
+
+            updateCommitmentUI(data);
+            showCode('Scenario 2: With Updates', data);
+        }
+
+        // Scenario 3: Mixed tasks
+        function loadScenario3() {
+            const today = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const threeDaysFromNow = new Date();
+            threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+
+            const data = {
+                pending: [
+                    {
+                        action: 'submit',
+                        object: 'quarterly report',
+                        deadline: today,
+                        status: 'pending',
+                    },
+                    {
+                        action: 'prepare',
+                        object: 'presentation',
+                        deadline: tomorrow,
+                        status: 'pending',
+                    },
+                    {
+                        action: 'schedule',
+                        object: 'team meeting',
+                        deadline: threeDaysFromNow,
+                        status: 'pending',
+                    },
+                ],
+                completed: [
+                    {
+                        action: 'send',
+                        object: 'contract',
+                        deadline: new Date(),
+                        status: 'completed',
+                    },
+                ],
+                reminders: [
+                    'Reminder: submit quarterly report today',
+                    'Reminder: prepare presentation tomorrow',
+                    'You missed: respond to client email',
+                ],
+            };
+
+            updateCommitmentUI(data);
+            showCode('Scenario 3: Mixed Tasks', data);
+        }
+
+        // Clear UI
+        function clearUI() {
+            updateCommitmentUI({
+                pending: [],
+                completed: [],
+                reminders: [],
+            });
+            document.getElementById('code-display').innerHTML = '<p>UI cleared</p>';
+        }
+
+        // Show code example
+        function showCode(scenario, data) {
+            const codeHtml = `
+        <strong>${scenario}</strong><br>
+        <br>
+        updateCommitmentUI({<br>
+        &nbsp;&nbsp;pending: ${JSON.stringify(data.pending, null, 2).split('\n').join('<br>&nbsp;&nbsp;')},<br>
+        &nbsp;&nbsp;completed: ${JSON.stringify(data.completed, null, 2).split('\n').join('<br>&nbsp;&nbsp;')},<br>
+        &nbsp;&nbsp;reminders: ${JSON.stringify(data.reminders, null, 2).split('\n').join('<br>&nbsp;&nbsp;')}<br>
+        });
+      `;
+            document.getElementById('code-display').innerHTML = codeHtml;
+        }
+
+        // Initialize with first scenario
+        window.addEventListener('load', () => {
+            loadScenario1();
+        });
+    </script>
+</body>
+</html>

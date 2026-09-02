@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Spam Detection - JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #d4af37;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+        }
+
+        .section h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 15px;
+            background: #0b0b0b;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        button {
+            background: #d4af37;
+            color: #0b0b0b;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #e8c547;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            background: #0b0b0b;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result.success {
+            border-color: #2ecc71;
+        }
+
+        .result.spam {
+            border-color: #e74c3c;
+        }
+
+        .result.ham {
+            border-color: #2ecc71;
+        }
+
+        .result.error {
+            border-color: #e67e22;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .result-value {
+            color: #fff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .badge.spam {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .badge.ham {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .badge.error {
+            background: #e67e22;
+            color: #fff;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loader.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #333;
+            border-top: 3px solid #d4af37;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .code-sample {
+            background: #0b0b0b;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .code-sample code {
+            color: #d4af37;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .example-btn {
+            background: #333;
+            color: #d4af37;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #d4af37;
+            font-weight: bold;
+        }
+
+        .example-btn:hover {
+            background: #444;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .status {
+            padding: 10px 15px;
+            background: #0b0b0b;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .status.ok {
+            color: #2ecc71;
+            border-left: 3px solid #2ecc71;
+            padding-left: 12px;
+        }
+
+        .status.error {
+            color: #e74c3c;
+            border-left: 3px solid #e74c3c;
+            padding-left: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🤖 ML Spam Detection</h1>
+            <p class="subtitle">JavaScript Integration with Flask API</p>
+        </header>
+
+        <!-- Check Email Section -->
+        <div class="section">
+            <h2>📧 Check Email</h2>
+            <p style="color: #888; margin-bottom: 15px;">Enter text to classify as spam or legitimate</p>
+            
+            <div class="input-group">
+                <textarea id="emailInput" placeholder="Paste email/SMS text here..."></textarea>
+                <button onclick="checkEmail()">Check</button>
+            </div>
+
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p style="color: #888; margin-top: 10px;">Checking with ML model...</p>
+            </div>
+
+            <div class="result" id="result"></div>
+
+            <div class="status" id="status"></div>
+        </div>
+
+        <!-- Examples Section -->
+        <div class="section">
+            <h2>📝 Quick Examples</h2>
+            <p style="color: #888; margin-bottom: 15px;">Click to test with sample emails</p>
+            
+            <div class="examples">
+                <button class="example-btn" onclick="loadExample(0)">
+                    💰 Spam: "Free bitcoin now!"
+                </button>
+                <button class="example-btn" onclick="loadExample(1)">
+                    ✅ Ham: "Hi, how are you?"
+                </button>
+                <button class="example-btn" onclick="loadExample(2)">
+                    💰 Spam: "Claim your prize!"
+                </button>
+                <button class="example-btn" onclick="loadExample(3)">
+                    ✅ Ham: "Meeting tomorrow at 2PM"
+                </button>
+            </div>
+        </div>
+
+        <!-- Code Usage Section -->
+        <div class="section">
+            <h2>💻 Code Usage</h2>
+            
+            <h3 style="color: #d4af37; margin: 20px 0 10px;">Basic Usage:</h3>
+            <div class="code-sample">
+                <code>// Simple email check<br>
+const result = await checkML("Free bitcoin now!");<br>
+console.log(result.label); // "Spam"<br>
+console.log(result.confidence); // 0.9138</code>
+            </div>
+
+            <h3 style="color: #d4af37; margin: 20px 0 10px;">With System Logic:</h3>
+            <div class="code-sample">
+                <code>// Integrate into spam filter<br>
+if (system_uncertain) {<br>
+&nbsp;&nbsp;const result = await checkML(email);<br>
+&nbsp;&nbsp;if (result.prediction === 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;moveToSpam(email);<br>
+&nbsp;&nbsp;}<br>
+}</code>
+            </div>
+
+            <h3 style="color: #d4af37; margin: 20px 0 10px;">Batch Processing:</h3>
+            <div class="code-sample">
+                <code>// Check multiple emails<br>
+const emails = ["email1", "email2", "email3"];<br>
+const results = await checkMLBatch(emails);</code>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="section">
+            <h2>ℹ️ API Information</h2>
+            
+            <div class="result-item">
+                <span class="result-label">API Endpoint:</span>
+                <span class="result-value">http://localhost:5000/predict</span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Model:</span>
+                <span class="result-value">Multinomial Naive Bayes</span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Accuracy:</span>
+                <span class="result-value">96.95%</span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Features:</span>
+                <span class="result-value">5000 TF-IDF features</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Training Data:</span>
+                <span class="result-value">5,572 SMS messages</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Status:</span>
+                <span class="result-value" id="apiStatus" style="color: #e67e22;">Checking...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="checkML.js"></script>
+    <script>
+        // Example emails
+        const examples = [
+            "Free bitcoin now! Click here to claim your prize!",
+            "Hi, how are you doing? Let's catch up soon.",
+            "Congratulations! You have won a free iPhone!",
+            "The meeting is tomorrow at 2 PM. See you there."
+        ];
+
+        // Load example email
+        function loadExample(index) {
+            document.getElementById('emailInput').value = examples[index];
+            checkEmail();
+        }
+
+        // Check email
+        async function checkEmail() {
+            const email = document.getElementById('emailInput').value.trim();
+
+            if (!email) {
+                showError('Please enter an email or SMS text');
+                return;
+            }
+
+            // Show loader
+            document.getElementById('loader').classList.add('show');
+            document.getElementById('result').classList.remove('show');
+
+            // Call ML function
+            const result = await checkML(email);
+
+            // Hide loader
+            document.getElementById('loader').classList.remove('show');
+
+            if (result.success) {
+                displayResult(result);
+            } else {
+                showError(result.error);
+            }
+        }
+
+        // Display result
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            const isSpam = result.prediction === 1;
+
+            let html = `
+                <div class="result-item">
+                    <span class="result-label">Classification:</span>
+                    <span class="result-value">${result.label}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Confidence:</span>
+                    <span class="result-value">${(result.confidence * 100).toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Spam Probability:</span>
+                    <span class="result-value">${(result.probabilities.spam * 100).toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ham Probability:</span>
+                    <span class="result-value">${(result.probabilities.ham * 100).toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Action:</span>
+                    <span class="result-value">${isSpam ? '🚫 Block/Report' : '✅ Allow'}</span>
+                </div>
+            `;
+
+            resultDiv.innerHTML = html;
+            resultDiv.classList.add('show');
+            resultDiv.classList.remove('error');
+            resultDiv.classList.add(isSpam ? 'spam' : 'ham');
+
+            // Add badge
+            const badge = document.createElement('div');
+            badge.className = `badge ${isSpam ? 'spam' : 'ham'}`;
+            badge.textContent = isSpam ? '🚫 SPAM' : '✅ LEGITIMATE';
+            resultDiv.appendChild(badge);
+        }
+
+        // Show error
+        function showError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Error:</span>
+                    <span class="result-value">${message}</span>
+                </div>
+            `;
+            resultDiv.classList.add('show', 'error');
+            resultDiv.classList.remove('spam', 'ham');
+        }
+
+        // Check API status
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                if (response.ok) {
+                    document.getElementById('apiStatus').textContent = '🟢 Running';
+                    document.getElementById('apiStatus').style.color = '#2ecc71';
+                } else {
+                    updateAPIStatus('Error');
+                }
+            } catch (error) {
+                updateAPIStatus('Offline - Check requirements');
+            }
+        }
+
+        function updateAPIStatus(status) {
+            document.getElementById('apiStatus').textContent = status;
+            document.getElementById('apiStatus').style.color = '#e67e22';
+        }
+
+        // Check API on load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAPIStatus();
+            // Update status every 10 seconds
+            setInterval(checkAPIStatus, 10000);
+        });
+    </script>
+</body>
+</html>

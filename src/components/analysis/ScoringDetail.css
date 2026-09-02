@@ -1,0 +1,267 @@
+/* ScoringDetail.css */
+
+.scoring-detail {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+  color: #E0E0E0;
+}
+
+.scoring-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.scoring-container h1 {
+  color: #D4AF37;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Score Circle */
+.score-circle {
+  width: 200px;
+  height: 200px;
+  box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.3), 0 0 30px rgba(212, 175, 55, 0.2);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  background: conic-gradient(
+    from 0deg,
+    rgba(212, 175, 55, 0.2),
+    rgba(212, 175, 55, 0.1),
+    rgba(212, 175, 55, 0.2)
+  );
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.score-value {
+  font-size: 4rem;
+  color: #D4AF37;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.score-label {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Status Display */
+.status-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.status-badge {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.status-badge.spam {
+  background: rgba(255, 0, 0, 0.2);
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  color: #FF6B6B;
+}
+
+.status-badge.legitimate {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #66BB6A;
+}
+
+/* Breakdown Cards */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.breakdown-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.breakdown-card h3 {
+  color: #D4AF37;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.breakdown-value {
+  font-size: 2rem;
+  color: #D4AF37;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.breakdown-percentage {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.8rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.breakdown-percentage-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #D4AF37, #F0E68C);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  border-radius: 10px;
+}
+
+/* Confidence Meter */
+.confidence-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.confidence-section h2 {
+  color: #D4AF37;
+  margin-top: 0;
+}
+
+.confidence-meter {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.meter-label {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+}
+
+.meter-bar {
+  flex: 1;
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.2),
+    rgba(255, 200, 0, 0.2),
+    rgba(76, 175, 80, 0.2)
+  );
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B6B, #FFC107, #66BB6A);
+  border-radius: 10px;
+  position: relative;
+}
+
+.meter-indicator {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  width: 22px;
+  height: 22px;
+  background: #D4AF37;
+  border-radius: 50%;
+  border: 2px solid #0B0B0B;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Scoring Rules */
+.scoring-rules {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.scoring-rules h2 {
+  color: #D4AF37;
+  margin-top: 0;
+}
+
+.rule-item {
+  background: rgba(212, 175, 55, 0.05);
+  border-left: 3px solid #D4AF37;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.rule-number {
+  color: #D4AF37;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.rule-description {
+  color: #A0A0A0;
+  margin-bottom: 0.5rem;
+}
+
+.rule-formula {
+  color: #4A90E2;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  background: rgba(74, 144, 226, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .scoring-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .score-value {
+    font-size: 2.5rem;
+  }
+
+  .breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .confidence-meter {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commitment Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tracker-header {
+            background: white;
+            border-radius: 12px 12px 0 0;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tracker-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .tracker-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tracker-content {
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .section {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pending .section-icon {
+            background: #fef3c7;
+        }
+
+        .reminders .section-icon {
+            background: #fee2e2;
+        }
+
+        .completed .section-icon {
+            background: #d1fae5;
+        }
+
+        .task-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: all 0.2s;
+        }
+
+        .task-item:hover {
+            transform: translateX(4px);
+        }
+
+        .pending .task-item {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+
+        .reminders .task-item {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        .completed .task-item {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+
+        .task-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .task-details {
+            flex-grow: 1;
+        }
+
+        .task-action {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 4px;
+            text-transform: capitalize;
+        }
+
+        .task-object {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .task-deadline {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .deadline-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #999;
+        }
+
+        .pending .deadline-indicator {
+            background: #f59e0b;
+        }
+
+        .completed .deadline-indicator {
+            background: #10b981;
+        }
+
+        .reminders .deadline-indicator {
+            background: #ef4444;
+        }
+
+        .task-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .status-completed {
+            background: #6ee7b7;
+            color: #065f46;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .empty-message {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .empty-submessage {
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .reminder-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .reminder-item:hover {
+            transform: translateX(4px);
+        }
+
+        .reminder-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .tracker-header {
+                padding: 20px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .tracker-header h1 {
+                font-size: 24px;
+            }
+
+            .task-content {
+                flex-direction: column;
+            }
+
+            .stats-bar {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Commitment Tracker Section -->
+        <div class="tracker-header">
+            <h1>📋 Commitment Tracker</h1>
+            <p>Track your commitments and stay on top of your tasks</p>
+        </div>
+
+        <div class="tracker-content">
+            <!-- Pending Tasks Section -->
+            <div class="section pending">
+                <div class="section-title">
+                    <div class="section-icon">⏳</div>
+                    Pending Tasks
+                </div>
+                <div id="pending-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Reminders Section -->
+            <div class="section reminders">
+                <div class="section-title">
+                    <div class="section-icon">🔔</div>
+                    Reminders
+                </div>
+                <div id="reminders-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Completed Tasks Section -->
+            <div class="section completed">
+                <div class="section-title">
+                    <div class="section-icon">✅</div>
+                    Completed Tasks
+                </div>
+                <div id="completed-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Statistics Bar -->
+            <div class="section stats-bar">
+                <div class="stat">
+                    <div class="stat-number" id="stat-pending">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat-reminders">0</div>
+                    <div class="stat-label">Reminders</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat-completed">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="commitmentTrackerUI.js"></script>
+</body>
+</html>

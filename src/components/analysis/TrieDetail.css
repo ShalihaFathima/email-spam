@@ -1,0 +1,388 @@
+/* TrieDetail.css */
+
+.trie-detail {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+  color: #E0E0E0;
+}
+
+.trie-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.trie-container h1 {
+  color: #D4AF37;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.trie-container h2 {
+  color: #D4AF37;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  color: #A0A0A0;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+.description {
+  color: #A0A0A0;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Traversal Section */
+.traversal-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.traversal-timeline {
+  margin: 1.5rem 0;
+}
+
+.traversal-step {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-left: 3px solid #D4AF37;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.traversal-step:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-left-color: #F0E68C;
+  padding-left: 1.5rem;
+}
+
+.step-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #D4AF37, #F0E68C);
+  color: #0B0B0B;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.step-details {
+  flex: 1;
+}
+
+.step-character {
+  color: #D4AF37;
+  font-weight: 700;
+  margin: 0 0 0.3rem 0;
+}
+
+.step-action {
+  color: #A0A0A0;
+  margin: 0;
+}
+
+.step-expanded {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.detail {
+  color: #4A90E2;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Patterns Section */
+.patterns-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.patterns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.pattern-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pattern-card:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+  border-color: #D4AF37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  transform: scale(1.05);
+}
+
+.pattern-icon {
+  font-size: 1.5rem;
+}
+
+.pattern-text {
+  color: #E0E0E0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.pattern-count {
+  color: #A0A0A0;
+  margin: 0;
+}
+
+.pattern-count strong {
+  color: #D4AF37;
+}
+
+/* Structure Section */
+.structure-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.structure-visualization {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.trie-svg {
+  max-width: 100%;
+  width: 400px;
+  height: auto;
+}
+
+.structure-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.stat {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat .label {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat .value {
+  color: #D4AF37;
+  font-size: 2rem;
+  font-weight: 700;
+  display: block;
+}
+
+/* How It Works */
+.how-it-works {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.how-it-works h2 {
+  color: #D4AF37;
+  margin-top: 0;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.step {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(74, 144, 226, 0.05));
+  border: 1px solid rgba(74, 144, 226, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #4A90E2, #3A70B2);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.step h4 {
+  color: #4A90E2;
+  margin: 0 0 0.5rem 0;
+}
+
+.step p {
+  color: #A0A0A0;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Structure Stats Grid */
+.structure-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(74, 144, 226, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-card:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(74, 144, 226, 0.1));
+  border-color: #D4AF37;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+  transform: translateY(-4px);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.stat-card h3 {
+  color: #D4AF37;
+  margin: 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  color: #E0E0E0;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.stat-description {
+  color: #A0A0A0;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Marker Number for Traversal */
+.marker-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #D4AF37, #F0E68C);
+  color: #0B0B0B;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.char-highlight {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.empty-state {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px dashed rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-text {
+  color: #A0A0A0;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trie-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .patterns-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .structure-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trie-svg {
+    width: 100%;
+  }
+}

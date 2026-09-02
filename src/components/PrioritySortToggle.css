@@ -1,0 +1,68 @@
+/* ========== PRIORITY SORT TOGGLE STYLES ========== */
+
+.pst-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: #d4af37;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pst-toggle:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+.pst-toggle:active {
+  transform: translateY(0);
+}
+
+.pst-toggle.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+.pst-icon {
+  font-size: 16px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.pst-toggle:hover .pst-icon,
+.pst-toggle.active .pst-icon {
+  transform: scale(1.15);
+}
+
+.pst-label {
+  display: inline-block;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 600px) {
+  .pst-toggle {
+    padding: 8px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .pst-label {
+    display: none;
+  }
+
+  .pst-toggle.active .pst-label {
+    display: inline-block;
+  }
+}

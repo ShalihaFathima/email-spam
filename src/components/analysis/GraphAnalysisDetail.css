@@ -1,0 +1,246 @@
+/* GraphAnalysisDetail.css */
+
+.graph-analysis-detail {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+  color: #E0E0E0;
+}
+
+.graph-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.graph-container h1 {
+  color: #D4AF37;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  color: #A0A0A0;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+/* Statistics Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+  border-color: #D4AF37;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  color: #A0A0A0;
+  font-size: 0.95rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  color: #D4AF37;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat-description {
+  color: #808080;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Network Section */
+.network-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.network-section h2 {
+  color: #D4AF37;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.network-nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.node-group {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(30, 30, 30, 0.8));
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.node-group h4 {
+  color: #D4AF37;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.node-item {
+  background: rgba(212, 175, 55, 0.05);
+  border-left: 3px solid #D4AF37;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+  border-radius: 4px;
+  color: #E0E0E0;
+  font-size: 0.95rem;
+}
+
+/* Edges Display */
+.edges-section {
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.edges-section h3 {
+  color: #D4AF37;
+  margin-top: 0;
+}
+
+.edge-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  border-left: 2px solid #4A90E2;
+}
+
+.edge-source {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+}
+
+.edge-target {
+  color: #D4AF37;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.legend-label {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+}
+
+/* How It Works */
+.how-it-works {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.how-it-works h2 {
+  color: #D4AF37;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.explanation-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.explanation-step {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(74, 144, 226, 0.05));
+  border: 1px solid rgba(74, 144, 226, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.explanation-step h4 {
+  color: #4A90E2;
+  margin: 0 0 0.8rem 0;
+  font-size: 1.05rem;
+}
+
+.explanation-step p {
+  color: #A0A0A0;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .graph-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .graph-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .network-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .legend {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
